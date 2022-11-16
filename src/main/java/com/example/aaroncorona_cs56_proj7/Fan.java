@@ -9,7 +9,6 @@ public class Fan extends Component {
     int width, height;
     int xCenter, yCenter;
 
-    /** Construct a default clock with the current time*/
     public Fan(int width, int height, int xCenter, int yCenter) {
         this.width = width;
         this.height = height;
@@ -17,7 +16,7 @@ public class Fan extends Component {
         this.yCenter = yCenter;
     }
 
-    /** Draw the Fan */
+    // Draw the Fan
     public void paint(Graphics g) {
         int radius = (int) (Math.min(width, height) * 0.4);
         int x = xCenter - radius;

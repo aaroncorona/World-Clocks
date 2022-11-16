@@ -9,53 +9,59 @@ import static java.util.TimeZone.getTimeZone;
 public class Clock extends Component implements Runnable {
 
   // Time vars
-  private double hour, minute, second;
+  private int hour, minute, second;
+  private String timezone = "PST";
 
   // Position vars
   int width, height;
   int xCenter, yCenter;
 
-  /** Construct a default clock with the current time*/
+  // Construct a default clock with the current time
   public Clock(int width, int height, int xCenter, int yCenter) {
     this.width = width;
     this.height = height;
     this.xCenter = xCenter;
     this.yCenter = yCenter;
 
-    setCurrentTime();
+    updateToCurrentTime();
   }
 
-  /** Return hour */
-  public double getHour() {
+  // Return hour
+  public int getHour() {
     return hour;
   }
 
-  /** Set a new hour */
+  // Set a new hour
   public void setHour(int hour) {
     this.hour = hour;
   }
 
-  /** Return minute */
-  public double getMinute() {
+  // Return minute
+  public int getMinute() {
     return minute;
   }
 
-  /** Set a new minute */
+  // Set a new minute
   public void setMinute(int minute) {
     this.minute = minute;
   }
 
-  /** Return second */
-  public double getSecond() {
+  // Return second
+  public int getSecond() {
     return second;
   }
 
-  /** Set a new second */
+  // Set a new second
   public void setSecond(int second) {
     this.second = second;
   }
 
-  /** Draw the Clock */
+  // Sets the timezone based on user input
+  public void setTimeZone(String timeZone) {
+    this.timezone = timeZone;
+  }
+
+  // Draw the Clock
   public void paint(Graphics g) {
     // Initialize clock parameters
     int clockRadius = (int)(Math.min(width, height) * 0.8 * 0.5);
@@ -66,6 +72,10 @@ public class Clock extends Component implements Runnable {
     g.setColor(Color.black);
     g.drawOval(xCenter - clockRadius, yCenter - clockRadius,
             2 * clockRadius, 2 * clockRadius);
+    g.setColor(Color.LIGHT_GRAY.brighter());
+    g.fillOval(xCenter - clockRadius, yCenter - clockRadius,
+            2 * clockRadius, 2 * clockRadius);
+    g.setColor(Color.black);
     g.drawString("12", xCenter - 5, yCenter - clockRadius + 12);
     g.drawString("9", xCenter - clockRadius + 3, yCenter + 5);
     g.drawString("3", xCenter + clockRadius - 10, yCenter + 3);
@@ -94,33 +104,18 @@ public class Clock extends Component implements Runnable {
             Math.cos((hour % 12 + minute / 60.0) * (2 * Math.PI / 12)));
     g.setColor(Color.green);
     g.drawLine(xCenter, yCenter, xHour, yHour);
-  }
-
-  // Increase the clock's seconds to mimic time passing
-  public void addSecond() {
-      second++;
-      minute = minute + 0.017;
-      hour = hour + 0.00017;
-  }
-
-  // Sets the timezone based on user input
-  public void setTimeZone(String timeZone) {
-    setCurrentTime(timeZone);
+    // Draw timezone
+    g.setColor(Color.black);
+    g.setFont(new Font("default", Font.BOLD, 16));
+    g.drawString(timezone, xCenter - 13, yCenter - 25);
+    g.setFont(new JLabel().getFont()); // reset font
+    // Draw time
+    String time = String.valueOf(hour) + ": " + String.valueOf(minute) + ": " + String.valueOf(second);
+    g.drawString(time, xCenter - 30, yCenter + 35);
   }
 
   // Helper method to update the clock time variables with the current time
-  private void setCurrentTime() {
-    // Construct a calendar for the current date and time
-    Calendar calendar = new GregorianCalendar();
-    calendar.setTimeZone(getTimeZone("PST"));
-    // Set current hour, minute and second
-    this.hour = calendar.get(Calendar.HOUR_OF_DAY);
-    this.minute = calendar.get(Calendar.MINUTE);
-    this.second = calendar.get(Calendar.SECOND);
-  }
-
-  // Helper method to update the clock time variables with the current time (with Timezone chosen)
-  private void setCurrentTime(String timezone) {
+  private void updateToCurrentTime() {
     // Construct a calendar for the current date and time
     Calendar calendar = new GregorianCalendar();
     calendar.setTimeZone(getTimeZone(timezone));
@@ -130,12 +125,12 @@ public class Clock extends Component implements Runnable {
     this.second = calendar.get(Calendar.SECOND);
   }
 
-  // Thread to increase the clock's time by 1 second
+  // Thread to continually sync the clock to the current time
   public void run() {
     try{
       while(true) {
         // Update the clock's data
-        this.addSecond();
+        this.updateToCurrentTime();
         Thread.sleep(1000);
       }
     } catch (Exception ex) {

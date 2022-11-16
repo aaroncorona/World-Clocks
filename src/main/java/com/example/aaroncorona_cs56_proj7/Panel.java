@@ -34,16 +34,19 @@ public class Panel extends JPanel implements Runnable {
 
     // Helper to build clocks and fans on the Panel
     private void buildComponents() {
-        // Add Component objects to Panel (Clocks)
+        // Set consistent start positions for alignment
         int xStartPos = 100;
         int yStartPos = 100;
+        // Add Component objects to Panel (Clocks)
         c1 = new Clock(COMPONENT_WIDTH, COMPONENT_HEIGHT,
                         xStartPos, yStartPos);
-        c1.setTimeZone("PST"); // TODO set timezones
+        c1.setTimeZone("PST");
         c2 = new Clock(COMPONENT_WIDTH, COMPONENT_HEIGHT,
                 xStartPos + COMPONENT_WIDTH, yStartPos);
+        c2.setTimeZone("KST");
         c3 = new Clock(COMPONENT_WIDTH, COMPONENT_HEIGHT,
                 xStartPos + COMPONENT_WIDTH*2, yStartPos);
+        c3.setTimeZone("HST");
         this.add(c1); this.add(c2); this.add(c2);
         // Add Component objects to Panel (Fans)
         fan1 = new Fan(COMPONENT_WIDTH, COMPONENT_HEIGHT,
@@ -67,7 +70,8 @@ public class Panel extends JPanel implements Runnable {
         // Fan Threads TODO
     }
 
-    @Override /** Draw all the Panel child objects */
+    // Draw all the Panel child objects
+    @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Paint Clocks
