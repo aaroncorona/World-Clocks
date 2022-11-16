@@ -26,34 +26,36 @@ public class Clock extends Component implements Runnable {
     updateToCurrentTime();
   }
 
-  // Return hour
   public int getHour() {
     return hour;
   }
 
-  // Set a new hour
   public void setHour(int hour) {
     this.hour = hour;
   }
 
-  // Return minute
   public int getMinute() {
     return minute;
   }
 
-  // Set a new minute
   public void setMinute(int minute) {
     this.minute = minute;
   }
 
-  // Return second
   public int getSecond() {
     return second;
   }
 
-  // Set a new second
   public void setSecond(int second) {
     this.second = second;
+  }
+
+  public int getXCenter() {
+    return xCenter;
+  }
+
+  public int getYCenter() {
+    return yCenter;
   }
 
   // Sets the timezone based on user input
@@ -126,6 +128,7 @@ public class Clock extends Component implements Runnable {
   }
 
   // Thread to continually sync the clock to the current time
+  @Override
   public void run() {
     try{
       while(true) {

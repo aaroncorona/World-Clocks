@@ -7,7 +7,7 @@ public class Panel extends JPanel implements Runnable {
 
     // Component objects
     private Clock c1,c2,c3;
-    private Fan fan1,fan2,fan3;
+    private ClockFan cFan1, cFan2, cFan3;
 
     // Component settings
     public static final int COMPONENT_WIDTH = 200;
@@ -15,7 +15,7 @@ public class Panel extends JPanel implements Runnable {
 
     // Threads
     private Thread panelThread;
-    private Thread c1Thread, c2Thread, c3Thread;
+    private Thread c1Thread, c2Thread, c3Thread, cFan1Thread, cFan2Thread, cFan3Thread;
 
     public Panel() {
         // Default UI settings
@@ -37,7 +37,7 @@ public class Panel extends JPanel implements Runnable {
         // Set consistent start positions for alignment
         int xStartPos = 100;
         int yStartPos = 100;
-        // Add Component objects to Panel (Clocks)
+        // Add Clocks
         c1 = new Clock(COMPONENT_WIDTH, COMPONENT_HEIGHT,
                         xStartPos, yStartPos);
         c1.setTimeZone("PST");
@@ -48,14 +48,11 @@ public class Panel extends JPanel implements Runnable {
                 xStartPos + COMPONENT_WIDTH*2, yStartPos);
         c3.setTimeZone("HST");
         this.add(c1); this.add(c2); this.add(c2);
-        // Add Component objects to Panel (Fans)
-        fan1 = new Fan(COMPONENT_WIDTH, COMPONENT_HEIGHT,
-                        xStartPos, yStartPos + COMPONENT_HEIGHT);
-        fan2 = new Fan(COMPONENT_WIDTH, COMPONENT_HEIGHT,
-                xStartPos + COMPONENT_WIDTH, yStartPos + COMPONENT_HEIGHT);
-        fan3 = new Fan(COMPONENT_WIDTH, COMPONENT_HEIGHT,
-                xStartPos + COMPONENT_WIDTH*2, yStartPos + COMPONENT_HEIGHT);
-        this.add(fan1); this.add(fan2); this.add(fan3);
+        // Add Fans that correspond to the Clocks
+        cFan1 = new ClockFan(c1);
+        cFan2 = new ClockFan(c2);
+        cFan3 = new ClockFan(c3);
+        this.add(cFan1); this.add(cFan2); this.add(cFan3);
     }
 
     // Helper to launch component threads
@@ -67,7 +64,13 @@ public class Panel extends JPanel implements Runnable {
         c1Thread.start();
         c2Thread.start();
         c3Thread.start();
-        // Fan Threads TODO
+        // Fan Threads
+        cFan1Thread = new Thread(cFan1);
+        cFan2Thread = new Thread(cFan2);
+        cFan3Thread = new Thread(cFan3);
+        cFan1Thread.start();
+        cFan2Thread.start();
+        cFan3Thread.start();
     }
 
     // Draw all the Panel child objects
@@ -77,7 +80,7 @@ public class Panel extends JPanel implements Runnable {
         // Paint Clocks
         c1.paint(g); c2.paint(g); c3.paint(g);
         // Paint Fans
-        fan1.paint(g); fan2.paint(g); fan3.paint(g);
+        cFan1.paint(g); cFan2.paint(g); cFan3.paint(g);
     }
 
     // Thread that will continually repaint
@@ -88,6 +91,7 @@ public class Panel extends JPanel implements Runnable {
                 // Repaint the Panel concurrently with the time updates
                 repaint();
                 Thread.sleep(100);
+                // TODO - determine if threads can be interdependent at all
             }
         } catch (Exception ex) {
             System.out.println(ex);
