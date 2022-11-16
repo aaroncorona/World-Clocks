@@ -15,7 +15,8 @@ public class Panel extends JPanel implements Runnable {
 
     // Threads
     private Thread panelThread;
-    private Thread c1Thread, c2Thread, c3Thread, cFan1Thread, cFan2Thread, cFan3Thread;
+    private Thread c1Thread, c2Thread, c3Thread;
+    private Thread cFan1Thread, cFan2Thread, cFan3Thread;
 
     public Panel() {
         // Default UI settings
@@ -26,10 +27,8 @@ public class Panel extends JPanel implements Runnable {
         // Add Clock and Fan components
         buildComponents();
 
-        // Threads
-        panelThread = new Thread(this);
-        panelThread.start();
-        startComponentThreads();
+        // Launch Threads
+        startThreads();
     }
 
     // Helper to build clocks and fans on the Panel
@@ -47,17 +46,18 @@ public class Panel extends JPanel implements Runnable {
         c3 = new Clock(COMPONENT_WIDTH, COMPONENT_HEIGHT,
                 xStartPos + COMPONENT_WIDTH*2, yStartPos);
         c3.setTimeZone("HST");
-        this.add(c1); this.add(c2); this.add(c2);
         // Add Fans that correspond to the Clocks
         cFan1 = new ClockFan(c1);
         cFan2 = new ClockFan(c2);
         cFan3 = new ClockFan(c3);
-        this.add(cFan1); this.add(cFan2); this.add(cFan3);
     }
 
     // Helper to launch component threads
-    private void startComponentThreads() {
-        // Clock threads
+    private void startThreads() {
+        // Panel Thread
+        panelThread = new Thread(this);
+        panelThread.start();
+        // Clock Threads
         c1Thread = new Thread(c1);
         c2Thread = new Thread(c2);
         c3Thread = new Thread(c3);
@@ -78,9 +78,13 @@ public class Panel extends JPanel implements Runnable {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         // Paint Clocks
-        c1.paint(g); c2.paint(g); c3.paint(g);
+        c1.paint(g);
+        c2.paint(g);
+        c3.paint(g);
         // Paint Fans
-        cFan1.paint(g); cFan2.paint(g); cFan3.paint(g);
+        cFan1.paint(g);
+        cFan2.paint(g);
+        cFan3.paint(g);
     }
 
     // Thread that will continually repaint

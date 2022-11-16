@@ -50,6 +50,14 @@ public class Clock extends Component implements Runnable {
     this.second = second;
   }
 
+  public int getWidth() {
+    return width;
+  }
+
+  public int getHeight() {
+    return height;
+  }
+
   public int getXCenter() {
     return xCenter;
   }
