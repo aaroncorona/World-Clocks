@@ -8,8 +8,7 @@ public class Panel extends JPanel implements Runnable {
     // Component objects
     private Clock c1,c2,c3;
     private ClockFan cFan1, cFan2, cFan3;
-
-    // TODO add Fan Settings menu with labels, text boxes, and buttons
+    private ClockFanSettings cFan1Settings, cFan2Settings, cFan3Settings;
 
     // Component settings
     public static final int COMPONENT_WIDTH = 200;
@@ -52,6 +51,11 @@ public class Panel extends JPanel implements Runnable {
         cFan1 = new ClockFan(c1);
         cFan2 = new ClockFan(c2);
         cFan3 = new ClockFan(c3);
+        // Add Fan Settings for each fan
+        cFan1Settings = new ClockFanSettings(cFan1);
+        cFan2Settings = new ClockFanSettings(cFan2);
+        cFan3Settings = new ClockFanSettings(cFan3);
+        // Place the Fan Setting components on the Panel TODO
     }
 
     // Helper to launch component threads
