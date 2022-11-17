@@ -1,11 +1,12 @@
 package com.example.aaroncorona_cs56_proj7;
 
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 // Class that acts as a wrapper for the components needed (labels, text fields, and buttons) to control a Fan
-public final class ClockFanSettings {
+public final class ClockFanSettingsMenu extends JPopupMenu {
 
     private ClockFan fan;
     private boolean isTimerOn;
@@ -16,12 +17,17 @@ public final class ClockFanSettings {
     private Button forceStartButton, forceStopButton, timerToggleButton;
 
     // Constructor - Each ClockFanSettings obj controls the config of 1 Fan
-    public ClockFanSettings(ClockFan fan) {
+    public ClockFanSettingsMenu(ClockFan fan) {
         this.fan = fan;
+
+        // Menu settings
+        this.setPreferredSize(new Dimension(400, 400));
+        this.setVisible(true);
 
         // Timer should be off by default when the Fan is built
         isTimerOn = false;
 
+        // Add all child components to the Menu
         buildComponents();
     }
 
@@ -35,7 +41,7 @@ public final class ClockFanSettings {
         startTimeTextField = new TextField();
         endTimeTextField = new TextField();
         // Buttons
-        forceStartButton  = new Button("Force Start");
+        forceStartButton = new Button("Force Start");
         forceStopButton = new Button("Force Stop");
         timerToggleButton = new Button("Start/Stop Timer");
         // Button Listeners
@@ -54,10 +60,10 @@ public final class ClockFanSettings {
         // Timer Toggle button
         timerToggleButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-                if(isTimerOn == false) {
+                if (isTimerOn == false) {
                     // Turn on timer
-                    String startTime = startTimeTextField.getText().substring(0,6);
-                    String endTime = endTimeTextField.getText().substring(0,6);
+                    String startTime = startTimeTextField.getText().substring(0, 6);
+                    String endTime = endTimeTextField.getText().substring(0, 6);
                     fan.startRotating(startTime, endTime);
                     isTimerOn = true;
                     // Update label
@@ -74,6 +80,10 @@ public final class ClockFanSettings {
                 }
             }
         });
+        // Add all components to the Menu
+        this.add(startTimeLabel); this.add(endTimeLabel); this.add(isTimerOnLabel);
+        this.add(startTimeTextField); this.add(endTimeTextField);
+        this.add(forceStartButton); this.add(forceStopButton); this.add(timerToggleButton);
     }
 
     // Getter methods for all components
