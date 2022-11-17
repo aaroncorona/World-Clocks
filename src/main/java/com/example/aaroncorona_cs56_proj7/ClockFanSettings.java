@@ -10,24 +10,29 @@ public final class ClockFanSettings {
     private ClockFan fan;
     private boolean isTimerOn;
 
-    private Label startTimeLabel, endTimeLabel;
+    // Components
+    private Label startTimeLabel, endTimeLabel, isTimerOnLabel;
     private TextField startTimeTextField, endTimeTextField;
-    private Label isTimerOnLabel;
+    private Button forceStartButton, forceStopButton, timerToggleButton;
 
-
-    // Each ClockFanSettings obj controls the config of 1 ClockFan obj
+    // Constructor - Each ClockFanSettings obj controls the config of 1 Fan
     public ClockFanSettings(ClockFan fan) {
         this.fan = fan;
 
         // Timer should be off by default when the Fan is built
         isTimerOn = false;
 
-        // Default component UIs (written in order of vertical appearance)
+        // Default Label UIs
         startTimeLabel = new Label("Start Time (HH:MM:SS):");
         endTimeLabel = new Label("End Time (HH:MM:SS):");
+        isTimerOnLabel = new Label("Timer Off");
+        // Default Text fields
         startTimeTextField = new TextField();
         endTimeTextField = new TextField();
-        isTimerOnLabel = new Label("Timer Off");
+        // Default Buttons
+        forceStartButton  = new Button("Force Start");
+        forceStopButton = new Button("Force Stop");
+        timerToggleButton = new Button("Start/Stop Timer");
     }
 
     // Getter methods for components
@@ -35,12 +40,16 @@ public final class ClockFanSettings {
         return startTimeLabel;
     }
 
-    public TextField getStartTimeTextField() {
-        return startTimeTextField;
-    }
-
     public Label getEndTimeLabel() {
         return endTimeLabel;
+    }
+
+    public Label getTimerToggleLabel() {
+        return isTimerOnLabel;
+    }
+
+    public TextField getStartTimeTextField() {
+        return startTimeTextField;
     }
 
     public TextField getEndTimeTextField() {
@@ -48,31 +57,28 @@ public final class ClockFanSettings {
     }
 
     public Button getForceStartButton() {
-        Button button = new Button("Force Start");
         // Trigger the corresponding Fan to stop
-        button.addMouseListener(new MouseAdapter() {
+        forceStartButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 fan.startRotating();
             }
         });
-        return button;
+        return forceStartButton;
     }
 
     public Button getForceStopButton() {
-        Button button = new Button("Force Stop");
         // Trigger the corresponding Fan to stop
-        button.addMouseListener(new MouseAdapter() {
+        forceStopButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 fan.stopRotating();
             }
         });
-        return button;
+        return forceStopButton;
     }
 
     public Button getTimerToggleButton() {
-        Button button = new Button("Timer Toggle");
         // Trigger the corresponding Timer to start with the time input in the text boxes, or stop the timer
-        button.addMouseListener(new MouseAdapter() {
+        timerToggleButton.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if(isTimerOn == false) {
                     // Turn on timer
@@ -94,10 +100,6 @@ public final class ClockFanSettings {
                 }
             }
         });
-        return button;
-    }
-
-    public Label getTimerToggleLabel() {
-        return isTimerOnLabel;
+        return timerToggleButton;
     }
 }
