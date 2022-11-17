@@ -8,9 +8,10 @@ import java.awt.event.MouseEvent;
 public final class ClockFanSettings {
 
     private ClockFan fan;
-    private TextField startTimeTextField;
-    private TextField endTimeTextField;
     private boolean isTimerOn;
+
+    private Label startTimeLabel, endTimeLabel;
+    private TextField startTimeTextField, endTimeTextField;
     private Label isTimerOnLabel;
 
 
@@ -18,8 +19,12 @@ public final class ClockFanSettings {
     public ClockFanSettings(ClockFan fan) {
         this.fan = fan;
 
-        // Default control settings
+        // Timer should be off by default when the Fan is built
         isTimerOn = false;
+
+        // Default component UIs (written in order of vertical appearance)
+        startTimeLabel = new Label("Start Time (HH:MM:SS):");
+        endTimeLabel = new Label("End Time (HH:MM:SS):");
         startTimeTextField = new TextField();
         endTimeTextField = new TextField();
         isTimerOnLabel = new Label("Timer Off");
@@ -27,7 +32,7 @@ public final class ClockFanSettings {
 
     // Getter methods for components
     public Label getStartTimeLabel() {
-        return new Label("Start Time (HH:MM:SS):");
+        return startTimeLabel;
     }
 
     public TextField getStartTimeTextField() {
@@ -35,7 +40,7 @@ public final class ClockFanSettings {
     }
 
     public Label getEndTimeLabel() {
-        return new Label("End Time (HH:MM:SS):");
+        return endTimeLabel;
     }
 
     public TextField getEndTimeTextField() {
@@ -47,7 +52,6 @@ public final class ClockFanSettings {
         // Trigger the corresponding Fan to stop
         button.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
-
                 fan.startRotating();
             }
         });
@@ -76,9 +80,6 @@ public final class ClockFanSettings {
                     String endTime = endTimeTextField.getText().substring(0,6);
                     fan.startRotating(startTime, endTime);
                     isTimerOn = true;
-                    // Clear text fields
-                    startTimeTextField.setText("");
-                    endTimeTextField.setText("");
                     // Update label
                     isTimerOnLabel.setText("Timer On");
                 } else {
@@ -91,7 +92,6 @@ public final class ClockFanSettings {
                     // Update label
                     isTimerOnLabel.setText("Timer Off");
                 }
-
             }
         });
         return button;
