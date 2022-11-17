@@ -9,6 +9,8 @@ public class Panel extends JPanel implements Runnable {
     private Clock c1,c2,c3;
     private ClockFan cFan1, cFan2, cFan3;
 
+    // TODO add Fan Settings menu with labels, text boxes, and buttons
+
     // Component settings
     public static final int COMPONENT_WIDTH = 200;
     public static final int COMPONENT_HEIGHT = COMPONENT_WIDTH;
@@ -92,10 +94,9 @@ public class Panel extends JPanel implements Runnable {
     public void run() {
         try{
             while(true) {
-                // Repaint the Panel concurrently with the time updates
+                // Repaint the Panel continually
                 repaint();
                 Thread.sleep(100);
-                // TODO - determine if threads can be interdependent at all
             }
         } catch (Exception ex) {
             System.out.println(ex);

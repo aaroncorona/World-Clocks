@@ -18,6 +18,6 @@ public class Frame extends JFrame {
     // Main
     public static void main(String[] args) {
         new Frame();
-        // TODO - add FX text boxes for Fan time input to overlap on the lower third of the Panel
+        // TODO - add FX
     }
 }

@@ -141,7 +141,7 @@ public class Clock extends Component implements Runnable {
     try{
       while(true) {
         // Update the clock's data
-        this.updateToCurrentTime();
+        updateToCurrentTime();
         Thread.sleep(1000);
       }
     } catch (Exception ex) {
