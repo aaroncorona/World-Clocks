@@ -34,12 +34,13 @@ public class ClockFan extends Component implements Runnable {
         this.rotationEndTime = rotationEndTime;
     }
 
-    // Rotation setter for an indefinite rotation
+    // Rotation setter for an indefinite rotation (e.g. for a force start button)
     public void startRotating() {
         this.rotationStartTime = "000000";
         this.rotationEndTime = "999999";
     }
 
+    // Rotation setter to stop (e.g. for a force stop button)
     public void stopRotating() {
         this.rotationStartTime = "000000";
         this.rotationEndTime = "000000";
