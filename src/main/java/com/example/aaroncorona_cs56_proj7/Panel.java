@@ -2,13 +2,14 @@ package com.example.aaroncorona_cs56_proj7;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Panel extends JPanel implements Runnable {
 
     // Component objects
     private Clock c1,c2,c3;
     private ClockFan cFan1, cFan2, cFan3;
-    private ClockFanSettingsMenu cFan1Settings, cFan2Settings, cFan3Settings;
 
     // Component settings
     public static final int COMPONENT_WIDTH = 200;
@@ -23,8 +24,8 @@ public class Panel extends JPanel implements Runnable {
         // Default UI settings
         this.setBackground(Color.LIGHT_GRAY);
         this.setPreferredSize(getPreferredSize());
-        this.setLayout(null);
         this.setFocusable(true);
+        this.setLayout(null);
 
         // Add Clock and Fan components
         buildComponents();
@@ -33,7 +34,7 @@ public class Panel extends JPanel implements Runnable {
         startThreads();
     }
 
-    // Helper to build clocks and fans on the Panel
+    // Helper to build components (clocks, fans, menus, and buttons) on the Panel
     private void buildComponents() {
         // Set consistent start positions for alignment
         int xStartPos = 100;
@@ -52,18 +53,37 @@ public class Panel extends JPanel implements Runnable {
         cFan1 = new ClockFan(c1);
         cFan2 = new ClockFan(c2);
         cFan3 = new ClockFan(c3);
-        // Add Fan Settings for each fan
-        cFan1Settings = new ClockFanSettingsMenu(cFan1);
-        cFan2Settings = new ClockFanSettingsMenu(cFan2);
-        cFan3Settings = new ClockFanSettingsMenu(cFan3);
-        // Place the Menus on the Panel TODO
-        cFan1Settings.setLocation(xStartPos + COMPONENT_WIDTH*4, yStartPos + COMPONENT_WIDTH*4);
-        cFan2Settings.setLocation(xStartPos + COMPONENT_WIDTH*5, yStartPos + COMPONENT_WIDTH*4);
-        cFan3Settings.setLocation(xStartPos + COMPONENT_WIDTH*6, yStartPos + COMPONENT_WIDTH*4);
-
-        // Place the Fan Setting Text Fields on the Panel TODO
-
-        // Place the Fan Setting Buttons on the Panel TODO
+        // Add a Fan Settings menu for each fan
+        ClockFanMenu cFan1Menu = new ClockFanMenu(cFan1);
+        ClockFanMenu cFan2Menu = new ClockFanMenu(cFan2);
+        ClockFanMenu cFan3Menu = new ClockFanMenu(cFan3);
+        // Add a button to open and close each Menu
+        Button cFan1MenuButton = new Button("Fan Settings");
+        cFan1MenuButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                cFan1Menu.toggleMenu();
+            }
+        });
+        Button cFan2MenuButton = new Button("Fan Settings");
+        cFan2MenuButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                cFan2Menu.toggleMenu();
+            }
+        });
+        Button cFan3MenuButton = new Button("Fan Settings");
+        cFan3MenuButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                cFan3Menu.toggleMenu();
+            }
+        });
+        // Add the buttons to the Panel
+        this.add(cFan1MenuButton); this.add(cFan2MenuButton); this.add(cFan3MenuButton);
+        cFan1MenuButton.setBounds(cFan1.getXCenter() - 60, cFan1.getYCenter() + COMPONENT_HEIGHT/2,
+                120,40);
+        cFan2MenuButton.setBounds(cFan2.getXCenter() - 60, cFan2.getYCenter() + COMPONENT_HEIGHT/2,
+                120,40);
+        cFan3MenuButton.setBounds(cFan3.getXCenter() - 60, cFan3.getYCenter() + COMPONENT_HEIGHT/2,
+                120,40);
     }
 
     // Helper to launch component threads

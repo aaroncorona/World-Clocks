@@ -28,6 +28,14 @@ public class ClockFan extends Component implements Runnable {
         rotationEndTime = "000000";
     }
 
+    public int getXCenter() {
+        return xCenter;
+    }
+
+    public int getYCenter() {
+        return yCenter;
+    }
+
     // Rotation setter with predetermined window
     public void startRotating(String rotationStartTime, String rotationEndTime) {
         this.rotationStartTime = rotationStartTime;

@@ -5,8 +5,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-// Class that acts as a wrapper for the components needed (labels, text fields, and buttons) to control a Fan
-public final class ClockFanSettingsMenu extends JPopupMenu {
+// Class to create a JPopupMenu for the components needed (labels, text fields, and buttons) to control a Fan
+public final class ClockFanMenu extends JPopupMenu {
 
     private ClockFan fan;
     private boolean isTimerOn;
@@ -14,15 +14,17 @@ public final class ClockFanSettingsMenu extends JPopupMenu {
     // Components
     private Label startTimeLabel, endTimeLabel, isTimerOnLabel;
     private TextField startTimeTextField, endTimeTextField;
-    private Button forceStartButton, forceStopButton, timerToggleButton;
+    private Button forceStartButton, forceStopButton, timerToggleButton, exitButton;
 
     // Constructor - Each ClockFanSettings obj controls the config of 1 Fan
-    public ClockFanSettingsMenu(ClockFan fan) {
+    public ClockFanMenu(ClockFan fan) {
         this.fan = fan;
+        setBackground(Color.LIGHT_GRAY);
+//        this.setLayout(new GridLayout());
 
         // Menu settings
-        this.setPreferredSize(new Dimension(400, 400));
-        this.setVisible(true);
+        setPreferredSize(new Dimension(400, 400));
+        setLocation(fan.getXCenter(), fan.getYCenter());
 
         // Timer should be off by default when the Fan is built
         isTimerOn = false;
@@ -34,9 +36,9 @@ public final class ClockFanSettingsMenu extends JPopupMenu {
     // Helper method to initialize all the components
     private void buildComponents() {
         // Labels
+        isTimerOnLabel = new Label("Timer is Currently Off");
         startTimeLabel = new Label("Start Time (HH:MM:SS):");
         endTimeLabel = new Label("End Time (HH:MM:SS):");
-        isTimerOnLabel = new Label("Timer Off");
         // Text fields
         startTimeTextField = new TextField();
         endTimeTextField = new TextField();
@@ -44,6 +46,7 @@ public final class ClockFanSettingsMenu extends JPopupMenu {
         forceStartButton = new Button("Force Start");
         forceStopButton = new Button("Force Stop");
         timerToggleButton = new Button("Start/Stop Timer");
+        exitButton = new Button("Exit");
         // Button Listeners
         // Force Start Button - Trigger the corresponding Fan to start
         forceStartButton.addMouseListener(new MouseAdapter() {
@@ -67,7 +70,7 @@ public final class ClockFanSettingsMenu extends JPopupMenu {
                     fan.startRotating(startTime, endTime);
                     isTimerOn = true;
                     // Update label
-                    isTimerOnLabel.setText("Timer On");
+                    isTimerOnLabel.setText("Timer is Currently On");
                 } else {
                     // Turn off timer
                     fan.stopRotating();
@@ -76,46 +79,29 @@ public final class ClockFanSettingsMenu extends JPopupMenu {
                     startTimeTextField.setText("");
                     endTimeTextField.setText("");
                     // Update label
-                    isTimerOnLabel.setText("Timer Off");
+                    isTimerOnLabel.setText("Timer is Currently Off");
                 }
             }
         });
+        // Exit Menu button
+        exitButton.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent e) {
+                setVisible(false);
+            }
+        });
         // Add all components to the Menu
-        this.add(startTimeLabel); this.add(endTimeLabel); this.add(isTimerOnLabel);
-        this.add(startTimeTextField); this.add(endTimeTextField);
-        this.add(forceStartButton); this.add(forceStopButton); this.add(timerToggleButton);
+        this.add(isTimerOnLabel);
+        this.add(startTimeLabel); this.add(startTimeTextField);
+        this.add(endTimeLabel); this.add(endTimeTextField);
+        this.add(forceStartButton); this.add(forceStopButton); this.add(timerToggleButton); this.add(exitButton);
     }
 
-    // Getter methods for all components
-    public Label getStartTimeLabel() {
-        return startTimeLabel;
-    }
-
-    public Label getEndTimeLabel() {
-        return endTimeLabel;
-    }
-
-    public Label getTimerToggleLabel() {
-        return isTimerOnLabel;
-    }
-
-    public TextField getStartTimeTextField() {
-        return startTimeTextField;
-    }
-
-    public TextField getEndTimeTextField() {
-        return endTimeTextField;
-    }
-
-    public Button getForceStartButton() {
-        return forceStartButton;
-    }
-
-    public Button getForceStopButton() {
-        return forceStopButton;
-    }
-
-    public Button getTimerToggleButton() {
-        return timerToggleButton;
+    // Open or closes the menu
+    public void toggleMenu(){
+        if(this.isVisible()) {
+            this.setVisible(false);
+        } else {
+            this.setVisible(true);
+        }
     }
 }
