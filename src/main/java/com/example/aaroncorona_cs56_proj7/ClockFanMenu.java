@@ -12,19 +12,19 @@ public final class ClockFanMenu extends JPopupMenu {
     private boolean isTimerOn;
 
     // Components
-    private Label startTimeLabel, endTimeLabel, isTimerOnLabel;
-    private TextField startTimeTextField, endTimeTextField;
-    private Button forceStartButton, forceStopButton, timerToggleButton, exitButton;
+    private JLabel startTimeLabel, endTimeLabel, isTimerOnLabel;
+    private JTextField startTimeTextField, endTimeTextField;
+    private JButton forceStartButton, forceStopButton, timerToggleButton, exitButton;
 
     // Constructor - Each ClockFanSettings obj controls the config of 1 Fan
     public ClockFanMenu(ClockFan fan) {
         this.fan = fan;
-        setBackground(Color.LIGHT_GRAY);
-//        this.setLayout(new GridLayout());
 
         // Menu settings
-        setPreferredSize(new Dimension(400, 400));
+        setPreferredSize(new Dimension(400, 250));
         setLocation(fan.getXCenter(), fan.getYCenter());
+        setBackground(Color.LIGHT_GRAY);
+        setVisible(false);
 
         // Timer should be off by default when the Fan is built
         isTimerOn = false;
@@ -36,17 +36,17 @@ public final class ClockFanMenu extends JPopupMenu {
     // Helper method to initialize all the components
     private void buildComponents() {
         // Labels
-        isTimerOnLabel = new Label("Timer is Currently Off");
-        startTimeLabel = new Label("Start Time (HH:MM:SS):");
-        endTimeLabel = new Label("End Time (HH:MM:SS):");
+        isTimerOnLabel = new JLabel("Timer is Currently Off");
+        startTimeLabel = new JLabel("Start Time (HH:MM:SS):");
+        endTimeLabel = new JLabel("End Time (HH:MM:SS):");
         // Text fields
-        startTimeTextField = new TextField();
-        endTimeTextField = new TextField();
+        startTimeTextField = new JTextField(6);
+        endTimeTextField = new JTextField(6);
         // Buttons
-        forceStartButton = new Button("Force Start");
-        forceStopButton = new Button("Force Stop");
-        timerToggleButton = new Button("Start/Stop Timer");
-        exitButton = new Button("Exit");
+        forceStartButton = new JButton("Force Start");
+        forceStopButton = new JButton("Force Stop");
+        timerToggleButton = new JButton("Start/Stop Timer");
+        exitButton = new JButton("Exit");
         // Button Listeners
         // Force Start Button - Trigger the corresponding Fan to start
         forceStartButton.addMouseListener(new MouseAdapter() {
