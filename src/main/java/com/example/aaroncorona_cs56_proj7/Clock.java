@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
 import java.util.*;
+import java.util.UUID;
 import static java.util.TimeZone.getTimeZone;
 
 // Draws a Clock within its own Panel container
@@ -14,11 +15,13 @@ public class Clock extends Canvas implements Runnable {
   // Time vars
   private int hour, minute, second;
   private String timezone = "PST";
+  private String id;
 
   private Thread thread = new Thread(this);
 
   public Clock() {
     super(250, 250);
+    this.id = UUID.randomUUID().toString();
 
     updateToCurrentTime();
     thread.start();
@@ -65,6 +68,7 @@ public class Clock extends Canvas implements Runnable {
   public String getTimeZone() {
     return timezone;
   }
+
 
   // Draw the Clock
   public void draw() {
@@ -146,5 +150,28 @@ public class Clock extends Canvas implements Runnable {
     } catch (Exception ex) {
       System.out.println(ex);
     }
+  }
+
+  @Override
+  public String toString() {
+    return "Clock showing " + timezone;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    // Check for memory equality
+    if (obj == this) {
+      return true;
+    }
+    // Check if different type
+    if (obj == null || obj.getClass() != this.getClass()) {
+      return false;
+    }
+    // Check if IDs are the same
+    Clock clock = (Clock) obj;
+    if (this.id.equals(((Clock) obj).id)) {
+      return true;
+    }
+    return false;
   }
 }

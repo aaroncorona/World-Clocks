@@ -7,6 +7,7 @@
 package com.example.aaroncorona_cs56_proj7;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -68,6 +69,7 @@ public class App extends Application {
             }
             fan3menu.show();
         });
+        // Position the buttons under their fans
         buttonRow.getChildren().addAll(button1, button2, button3);
 
         // Create a container (vertical box) for the rows of horizontal boxes

@@ -49,6 +49,10 @@ public class ClockFan extends Canvas implements Runnable {
         this.rotationEndTime = "000000";
     }
 
+    public Clock getClock() {
+        return clock;
+    }
+
     // Helper method to check if the fan should be rotating or not
     private boolean shouldRotate() {
         // Convert the rotation input times to integers
