@@ -3,9 +3,7 @@ package com.example.aaroncorona_cs56_proj7;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
-import javafx.scene.text.TextAlignment;
 
 // The class for drawing arcs on a panel
 public class ClockFan extends Canvas implements Runnable {
