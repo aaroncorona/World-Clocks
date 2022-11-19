@@ -101,7 +101,7 @@ public class ClockFan extends Canvas implements Runnable {
                     rotate();
                 }
                 draw();
-                Thread.sleep(1000);
+                Thread.sleep(100);
             }
         } catch (Exception ex) {
             System.out.println(ex);

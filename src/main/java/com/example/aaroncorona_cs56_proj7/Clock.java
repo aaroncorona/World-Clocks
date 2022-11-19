@@ -81,7 +81,7 @@ public class Clock extends Canvas implements Runnable {
     g.clearRect(0.0,0.0,getWidth(),getHeight());
 
     // Draw circle
-    g.setFill(Color.TRANSPARENT);
+    g.setFill(Color.WHITE);
     g.setStroke(Color.BLACK);
     g.fillOval(xCenter - clockRadius, yCenter - clockRadius,
             2 * clockRadius, 2 * clockRadius);
