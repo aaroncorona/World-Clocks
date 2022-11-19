@@ -1,29 +1,36 @@
 package com.example.aaroncorona_cs56_proj7;
-import java.awt.*;
-import javax.swing.*;
-import java.util.*;
 
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.text.TextAlignment;
+
+import java.util.*;
 import static java.util.TimeZone.getTimeZone;
 
 // Draws a Clock within its own Panel container
-public class Clock extends Component implements Runnable {
+public class Clock extends Canvas implements Runnable {
 
   // Time vars
   private int hour, minute, second;
   private String timezone = "PST";
 
-  // Position vars
-  int width, height;
-  int xCenter, yCenter;
+  private Thread thread = new Thread(this);
 
-  // Construct a default clock with the current time
-  public Clock(int width, int height, int xCenter, int yCenter) {
-    this.width = width;
-    this.height = height;
-    this.xCenter = xCenter;
-    this.yCenter = yCenter;
+  public Clock() {
+    super(250, 250);
 
     updateToCurrentTime();
+    thread.start();
+  }
+
+  public Clock(String timezone) {
+    super(250, 250);
+
+    this.timezone = timezone;
+
+    updateToCurrentTime();
+    thread.start();
   }
 
   public int getHour() {
@@ -50,85 +57,74 @@ public class Clock extends Component implements Runnable {
     this.second = second;
   }
 
-  public int getWidth() {
-    return width;
-  }
-
-  public int getHeight() {
-    return height;
-  }
-
-  public int getXCenter() {
-    return xCenter;
-  }
-
-  public int getYCenter() {
-    return yCenter;
-  }
-
   // Sets the timezone based on user input
   public void setTimeZone(String timeZone) {
     this.timezone = timeZone;
   }
 
+  public String getTimeZone() {
+    return timezone;
+  }
+
   // Draw the Clock
-  public void paint(Graphics g) {
-    // Initialize clock parameters
-    int clockRadius = (int)(Math.min(width, height) * 0.8 * 0.5);
-    // Draw the background yellow
-    g.setColor(Color.YELLOW);
-    g.fillRect(xCenter - clockRadius - 20, yCenter - clockRadius - 20, width, height);
+  public void draw() {
+    GraphicsContext g = this.getGraphicsContext2D();
+    int clockRadius = (int) (Math.min(getWidth(), getHeight()) * 0.8 * 0.5);
+    double xCenter = getWidth() / 2;
+    double yCenter = getHeight() / 2;
+    g.clearRect(0.0,0.0,getWidth(),getHeight());
+
     // Draw circle
-    g.setColor(Color.black);
-    g.drawOval(xCenter - clockRadius, yCenter - clockRadius,
-            2 * clockRadius, 2 * clockRadius);
-    g.setColor(Color.LIGHT_GRAY.brighter());
+    g.setFill(javafx.scene.paint.Color.TRANSPARENT);
+    g.setStroke(javafx.scene.paint.Color.BLACK);
     g.fillOval(xCenter - clockRadius, yCenter - clockRadius,
             2 * clockRadius, 2 * clockRadius);
-    g.setColor(Color.black);
-    g.drawString("12", xCenter - 5, yCenter - clockRadius + 12);
-    g.drawString("9", xCenter - clockRadius + 3, yCenter + 5);
-    g.drawString("3", xCenter + clockRadius - 10, yCenter + 3);
-    g.drawString("6", xCenter - 3, yCenter + clockRadius - 3);
+    g.setFill(javafx.scene.paint.Color.BLACK);
+    g.fillText("12", xCenter - 5, yCenter - clockRadius + 12);
+    g.fillText("9", xCenter - clockRadius + 3, yCenter + 5);
+    g.fillText("3", xCenter + clockRadius - 10, yCenter + 3);
+    g.fillText("6", xCenter - 3, yCenter + clockRadius - 3);
+    g.strokeOval(xCenter - clockRadius, yCenter - clockRadius,
+            2 * clockRadius, 2 * clockRadius);
+
     // Draw second hand
-    int sLength = (int)(clockRadius * 0.8);
-    int xSecond = (int)(xCenter + sLength *
-            Math.sin(second * (2 * Math.PI / 60)));
-    int ySecond = (int)(yCenter - sLength *
-            Math.cos(second * (2 * Math.PI / 60)));
-    g.setColor(Color.red);
-    g.drawLine(xCenter, yCenter, xSecond, ySecond);
+    double sLength = (clockRadius * 0.8);
+    double xSecond = (xCenter + sLength * Math.sin(second * (2 * Math.PI / 60)));
+    double ySecond = (yCenter - sLength * Math.cos(second * (2 * Math.PI / 60)));
+    g.setStroke(javafx.scene.paint.Color.RED);
+    g.strokeLine(xCenter, yCenter, xSecond, ySecond);
+
     // Draw minute hand
-    int mLength = (int)(clockRadius * 0.65);
-    int xMinute = (int)(xCenter + mLength *
-            Math.sin(minute * (2 * Math.PI / 60)));
-    int yMinute = (int)(yCenter - mLength *
-            Math.cos(minute * (2 * Math.PI / 60)));
-    g.setColor(Color.blue);
-    g.drawLine(xCenter, yCenter, xMinute, yMinute);
-    // Draw hour hand
-    int hLength = (int)(clockRadius * 0.5);
-    int xHour = (int)(xCenter + hLength *
+    double mLength = (clockRadius * 0.65);
+    double xMinute = (xCenter + mLength *      Math.sin(minute * (2 * Math.PI / 60)));
+    double yMinute = (yCenter - mLength *      Math.cos(minute * (2 * Math.PI / 60)));
+    g.setStroke(javafx.scene.paint.Color.BLUE);
+    g.strokeLine(xCenter, yCenter, xMinute, yMinute);
+
+    // Hour hand
+    double hLength = (clockRadius * 0.5);
+    double xHour = (xCenter + hLength *
             Math.sin((hour % 12 + minute / 60.0) * (2 * Math.PI / 12)));
-    int yHour = (int)(yCenter - hLength *
+    double yHour = (yCenter - hLength *
             Math.cos((hour % 12 + minute / 60.0) * (2 * Math.PI / 12)));
-    g.setColor(Color.green);
-    g.drawLine(xCenter, yCenter, xHour, yHour);
-    // Draw timezone
-    g.setColor(Color.black);
-    g.setFont(new Font("default", Font.BOLD, 16));
-    g.drawString(timezone, xCenter - 13, yCenter - 25);
-    g.setFont(new JLabel().getFont()); // reset font
-    // Draw time
-    String time = String.valueOf(hour) + ": " + String.valueOf(minute) + ": " + String.valueOf(second);
-    g.drawString(time, xCenter - 30, yCenter + 35);
+    g.setStroke(javafx.scene.paint.Color.GREEN);
+    g.strokeLine(xCenter, yCenter, xHour, yHour);
+
+    // Draw location name
+    g.setFill(Color.BLACK);
+    g.setTextAlign(TextAlignment.CENTER);
+    g.fillText(timezone,(xCenter),yCenter - (clockRadius/2));
+
+    // Draw time as string
+    String time = hour + ": " + minute + ": " + second;
+    g.fillText(time,(xCenter),yCenter + (clockRadius/2));
   }
 
   // Helper method to update the clock time variables with the current time
   private void updateToCurrentTime() {
     // Construct a calendar for the current date and time
     Calendar calendar = new GregorianCalendar();
-    calendar.setTimeZone(getTimeZone(timezone));
+    calendar.setTimeZone(TimeZone.getTimeZone(timezone));
     // Set current hour, minute and second
     this.hour = calendar.get(Calendar.HOUR_OF_DAY);
     this.minute = calendar.get(Calendar.MINUTE);
@@ -140,8 +136,9 @@ public class Clock extends Component implements Runnable {
   public void run() {
     try{
       while(true) {
-        // Update the clock's data
+        // Update the clock's data and draw it again
         updateToCurrentTime();
+        draw();
         Thread.sleep(1000);
       }
     } catch (Exception ex) {

@@ -1,13 +1,14 @@
 package com.example.aaroncorona_cs56_proj7;
 
-import java.awt.*;
+
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+import javafx.scene.text.TextAlignment;
 
 // The class for drawing arcs on a panel
-public class ClockFan extends Component implements Runnable {
-
-    // Position vars
-    private int width, height;
-    private int xCenter, yCenter;
+public class ClockFan extends Canvas implements Runnable {
 
     // Rotation vars
     private int rotationStartAngle;
@@ -15,28 +16,22 @@ public class ClockFan extends Component implements Runnable {
 
     private Clock clock;
 
+    private Thread thread = new Thread(this);
+
     public ClockFan(Clock clock) {
+        super(250, 250);
+
         this.clock = clock;
-        this.width = clock.getWidth();
-        this.height = clock.getHeight();
-        this.xCenter = clock.getXCenter();
-        this.yCenter = clock.getYCenter() + Panel.COMPONENT_HEIGHT;
 
         // Default rotation settings (not rotating)
         rotationStartAngle = 30;
         rotationStartTime = "000000";
         rotationEndTime = "000000";
+
+        thread.start();
     }
 
-    public int getXCenter() {
-        return xCenter;
-    }
-
-    public int getYCenter() {
-        return yCenter;
-    }
-
-    // Rotation setter with predetermined window
+    // Rotation setter for a predetermined time range
     public void startRotating(String rotationStartTime, String rotationEndTime) {
         this.rotationStartTime = rotationStartTime;
         this.rotationEndTime = rotationEndTime;
@@ -77,17 +72,19 @@ public class ClockFan extends Component implements Runnable {
     }
 
     // Draw the Fan
-    public void paint(Graphics g) {
-        int radius = (int) (Math.min(width, height) * 0.4);
+    public void draw() {
+        GraphicsContext g = this.getGraphicsContext2D();
+
+        // Determine size
+        int xCenter = (int) (getWidth() / 2);
+        int yCenter = (int) (getHeight() / 2);
+        int radius = (int) (Math.min(getWidth(), getHeight()) * 0.4);
         int x = xCenter - radius;
         int y = yCenter - radius;
-        // Draw the background pink
-        g.setColor(Color.pink);
-        g.fillRect(x-20, y-20, width, height);
-        // Draw the fan
-        g.setColor(Color.black);
+        // Draw the fan (4 arcs)
+        g.setFill(javafx.scene.paint.Color.BLACK);
         for(int i=0; i < 4; i++) {
-            g.fillArc(x, y, 2 * radius, 2 * radius, rotationStartAngle, 30);
+            g.fillArc(x, y, 2 * radius, 2 * radius, rotationStartAngle, 30, ArcType.ROUND);
             rotationStartAngle += 90;
         }
     }
@@ -100,7 +97,8 @@ public class ClockFan extends Component implements Runnable {
                 if(shouldRotate()) {
                     rotate();
                 }
-                Thread.sleep(100);
+                draw();
+                Thread.sleep(1000);
             }
         } catch (Exception ex) {
             System.out.println(ex);
