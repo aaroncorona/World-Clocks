@@ -81,13 +81,13 @@ public class Clock extends Canvas implements Runnable {
     g.clearRect(0.0,0.0,getWidth(),getHeight());
 
     // Draw circle
-    g.setFill(javafx.scene.paint.Color.TRANSPARENT);
-    g.setStroke(javafx.scene.paint.Color.BLACK);
+    g.setFill(Color.TRANSPARENT);
+    g.setStroke(Color.BLACK);
     g.fillOval(xCenter - clockRadius, yCenter - clockRadius,
             2 * clockRadius, 2 * clockRadius);
-    g.setFill(javafx.scene.paint.Color.BLACK);
+    g.setFill(Color.BLACK);
     g.fillText("12", xCenter - 5, yCenter - clockRadius + 12);
-    g.fillText("9", xCenter - clockRadius + 3, yCenter + 5);
+    g.fillText("9", xCenter - clockRadius + 4, yCenter + 5);
     g.fillText("3", xCenter + clockRadius - 10, yCenter + 3);
     g.fillText("6", xCenter - 3, yCenter + clockRadius - 3);
     g.strokeOval(xCenter - clockRadius, yCenter - clockRadius,
@@ -97,14 +97,14 @@ public class Clock extends Canvas implements Runnable {
     double sLength = (clockRadius * 0.8);
     double xSecond = (xCenter + sLength * Math.sin(second * (2 * Math.PI / 60)));
     double ySecond = (yCenter - sLength * Math.cos(second * (2 * Math.PI / 60)));
-    g.setStroke(javafx.scene.paint.Color.RED);
+    g.setStroke(Color.RED);
     g.strokeLine(xCenter, yCenter, xSecond, ySecond);
 
     // Draw minute hand
     double mLength = (clockRadius * 0.65);
     double xMinute = (xCenter + mLength *      Math.sin(minute * (2 * Math.PI / 60)));
     double yMinute = (yCenter - mLength *      Math.cos(minute * (2 * Math.PI / 60)));
-    g.setStroke(javafx.scene.paint.Color.BLUE);
+    g.setStroke(Color.BLUE);
     g.strokeLine(xCenter, yCenter, xMinute, yMinute);
 
     // Hour hand
@@ -113,17 +113,17 @@ public class Clock extends Canvas implements Runnable {
             Math.sin((hour % 12 + minute / 60.0) * (2 * Math.PI / 12)));
     double yHour = (yCenter - hLength *
             Math.cos((hour % 12 + minute / 60.0) * (2 * Math.PI / 12)));
-    g.setStroke(javafx.scene.paint.Color.GREEN);
+    g.setStroke(Color.GREEN);
     g.strokeLine(xCenter, yCenter, xHour, yHour);
 
     // Draw location name
-    g.setFill(Color.BLACK);
+    g.setStroke(Color.BLACK);
     g.setTextAlign(TextAlignment.CENTER);
-    g.fillText(timezone,(xCenter),yCenter - (clockRadius/2));
+    g.strokeText(timezone, xCenter,yCenter - (clockRadius/2));
 
     // Draw time as string
     String time = hour + ": " + minute + ": " + second;
-    g.fillText(time,(xCenter),yCenter + (clockRadius/2));
+    g.fillText(time, xCenter, yCenter + (clockRadius/2));
   }
 
   // Helper method to update the clock time variables with the current time

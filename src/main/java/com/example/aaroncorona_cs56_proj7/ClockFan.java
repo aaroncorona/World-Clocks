@@ -83,8 +83,10 @@ public class ClockFan extends Canvas implements Runnable {
         int radius = (int) (Math.min(getWidth(), getHeight()) * 0.4);
         int x = xCenter - radius;
         int y = yCenter - radius;
-        // Draw the fan (4 arcs)
+        // Clear canvas
         GraphicsContext g = this.getGraphicsContext2D();
+        g.clearRect(0, 0, getWidth(), getHeight());
+        // Draw the fan (4 arcs)
         g.setFill(javafx.scene.paint.Color.BLACK);
         for(int i=0; i < 4; i++) {
             g.fillArc(x, y, 2 * radius, 2 * radius, rotationStartAngle, 30, ArcType.ROUND);

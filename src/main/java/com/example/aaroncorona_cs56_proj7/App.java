@@ -71,13 +71,15 @@ public class App extends Application {
         });
         // Position the buttons under their fans
         buttonRow.getChildren().addAll(button1, button2, button3);
+        buttonRow.setSpacing(155);
+        buttonRow.setPadding(new Insets(10, 10, 10, 80));
 
         // Create a container (vertical box) for the rows of horizontal boxes
         VBox root = new VBox();
         root.getChildren().addAll(clockRow, fanRow, buttonRow);
 
         // Scene
-        Scene scene = new Scene(root, 750,650);
+        Scene scene = new Scene(root, 750,600);
         primaryStage.setTitle("World Clocks");
         primaryStage.setScene(scene);
         primaryStage.show();

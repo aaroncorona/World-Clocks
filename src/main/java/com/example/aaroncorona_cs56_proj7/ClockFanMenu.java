@@ -28,9 +28,9 @@ public class ClockFanMenu extends Stage {
 
     private void buildComponents() {
         // Label for the title, status, and instructions
-        Label labelTitle = new Label("Settings for " + fan.getClock());
-        Label labelStatus = new Label("Timer is Currently Off");
-        Label labelInstructions = new Label("Enter a Start and End Time:");
+        final Label labelTitle = new Label("Settings for " + fan.getClock());
+        Label labelStatus = new Label("Status: Timer is OFF");
+        final Label labelInstructions = new Label("Enter a Start and End Time:");
 
         // Text fields for start and end time
         final TextField tfStart = new TextField();
@@ -43,19 +43,49 @@ public class ClockFanMenu extends Stage {
         final VBox tfColumn = new VBox();
         tfColumn.getChildren().addAll(tfStart, tfEnd);
 
-        // 3 Buttons for start timer, force start, force stop
+        // 4 Buttons for start timer, force start, force stop
         final Button btnTimer = new Button("Start Timer");
         final Button btnForceStart = new Button("Force Start");
         final Button btnForceStop = new Button("Force Stop");
         final Button btnExit = new Button("Exit");
 
+        // Button action listeners
+        btnTimer.setOnAction(event -> {
+            // Start the Fan timer with the inputted range and update the status label
+            String startTime = tfStart.getText();
+            String endTime = tfEnd.getText();
+            // Check for valid input
+            if(startTime.length() != 6
+               || endTime.length() != 6) {
+                System.out.println("Invalid Time Entered");
+            } else {
+                fan.startRotating(startTime, endTime);
+                labelStatus.setText("Status: Timer is ON");
+            }
+        });
+        btnForceStart.setOnAction(event -> {
+            // Start the Fan
+            fan.startRotating();
+        });
+        btnForceStop.setOnAction(event -> {
+            // Stop the Fan
+            fan.stopRotating();
+            labelStatus.setText("Status: Timer is OFF");
+        });
+        btnExit.setOnAction(event -> {
+            // Close the stage
+            hide();
+        });
+
         // Create a container (vertical box) for all labels, text fields, and buttons
-        final VBox root = new VBox();
-        root.getChildren().addAll(labelTitle, labelStatus, labelInstructions, tfStart, tfEnd,
+        final VBox vBox = new VBox();
+        vBox.getChildren().addAll(labelTitle, labelStatus, labelInstructions, tfStart, tfEnd,
                 btnTimer, btnForceStart, btnForceStop, btnExit);
+        vBox.setSpacing(10);
+        vBox.setPadding(new Insets(15, 15, 15, 15));
 
         // Scene
-        Scene s = new Scene(root);
+        Scene s = new Scene(vBox);
         this.setScene(s);
     }
 }
