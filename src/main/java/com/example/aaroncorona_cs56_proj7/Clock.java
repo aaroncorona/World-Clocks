@@ -68,6 +68,8 @@ public class Clock extends Canvas implements Runnable {
 
   // Draw the Clock
   public void draw() {
+
+    // Determine size
     GraphicsContext g = this.getGraphicsContext2D();
     int clockRadius = (int) (Math.min(getWidth(), getHeight()) * 0.8 * 0.5);
     double xCenter = getWidth() / 2;
