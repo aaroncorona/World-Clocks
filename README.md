@@ -10,4 +10,6 @@
 
 *Settings Menu*:
 
-<img width="600" alt="Screen Shot 2022-11-18 at 10 58 01 PM" src="https://user-images.githubusercontent.com/31792170/202839049-5d65b7b1-c118-458d-a42d-bef0aaf8dc83.png">
+<img width="600" alt="Screen Shot 2022-11-18 at 11 03 40 PM" src="https://user-images.githubusercontent.com/31792170/202839136-afdafac3-023a-481b-bacd-0fa92c10e4eb.png">
+
+
