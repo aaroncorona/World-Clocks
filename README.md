@@ -6,10 +6,11 @@
 
 *Default View*:
 
-<img width="600" alt="Screen Shot 2022-11-18 at 10 57 47 PM" src="https://user-images.githubusercontent.com/31792170/202838963-3c212ab5-e06a-41db-a00b-f89e1751e27b.png">
+<img width="600" alt="Screen Shot 2022-11-19 at 10 08 36 AM" src="https://user-images.githubusercontent.com/31792170/202865411-171a4d1f-8531-4ed8-8bb9-9b1d21e2f822.png">
+
 
 *Settings Menu*:
 
-<img width="600" alt="Screen Shot 2022-11-18 at 11 03 40 PM" src="https://user-images.githubusercontent.com/31792170/202839136-afdafac3-023a-481b-bacd-0fa92c10e4eb.png">
+<img width="600" alt="Screen Shot 2022-11-19 at 10 09 05 AM" src="https://user-images.githubusercontent.com/31792170/202865418-82e0c491-140d-4af2-8207-5c88d8e748a3.png">
 
 
