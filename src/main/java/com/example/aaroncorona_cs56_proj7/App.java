@@ -1,17 +1,9 @@
-/***************************************************************************
- Author: Aaron Corona
- Date: Nov 18th, 2022
- CS56 Project #7 - World Clocks
- ***************************************************************************/
-
 package com.example.aaroncorona_cs56_proj7;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
