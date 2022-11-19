@@ -44,9 +44,26 @@ public class App extends Application {
         ClockFanMenu fan2menu = new ClockFanMenu(fan2);
         ClockFanMenu fan3menu = new ClockFanMenu(fan3);
 
+        // Add Buttons to open the Menus on an HBox container
+        HBox buttonRow = new HBox();
+        buttonRow.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,null,null)));
+        Button button1 = new Button("Fan 1 Settings");
+        button1.setOnAction(event -> {
+            fan1menu.show();
+        });
+        Button button2 = new Button("Fan 2 Settings");
+        button1.setOnAction(event -> {
+            fan2menu.show();
+        });
+        Button button3 = new Button("Fan 3 Settings");
+        button1.setOnAction(event -> {
+            fan3menu.show();
+        });
+        buttonRow.getChildren().addAll(button1, button2, button3);
+
         // Create a container (vertical box) for the rows of horizontal boxes
         VBox root = new VBox();
-        root.getChildren().addAll(clockRow, fanRow);
+        root.getChildren().addAll(clockRow, fanRow, buttonRow);
 
         // Scene
         Scene scene = new Scene(root, 750,650);
