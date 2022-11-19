@@ -49,14 +49,23 @@ public class App extends Application {
         buttonRow.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY,null,null)));
         Button button1 = new Button("Fan 1 Settings");
         button1.setOnAction(event -> {
+            if(fan1menu.isShowing()) {
+                fan1menu.hide();
+            }
             fan1menu.show();
         });
         Button button2 = new Button("Fan 2 Settings");
-        button1.setOnAction(event -> {
+        button2.setOnAction(event -> {
+            if(fan2menu.isShowing()) {
+                fan2menu.hide();
+            }
             fan2menu.show();
         });
         Button button3 = new Button("Fan 3 Settings");
-        button1.setOnAction(event -> {
+        button3.setOnAction(event -> {
+            if(fan3menu.isShowing()) {
+                fan3menu.hide();
+            }
             fan3menu.show();
         });
         buttonRow.getChildren().addAll(button1, button2, button3);

@@ -27,12 +27,6 @@ public class ClockFanMenu extends Stage {
         borderPaneOptionPane.setCenter(new TextArea());
         borderPaneOptionPane.setPadding(new Insets(5));
 
-        // Exit button
-        Button exitButton = new Button("Exit");
-        exitButton.setOnAction(event -> {
-            this.hide();
-        });
-
         // Scene
         Scene s = new Scene(borderPaneOptionPane);
         this.setScene(s);
