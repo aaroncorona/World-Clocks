@@ -1,6 +1,6 @@
 # World-Clocks
 
-**Purpose**: Practicing Multithreading and JavaFx.
+**Purpose**: Project to practice Multithreading and JavaFx.
 
 **Project**: I created clocks in different timezones that each have a fan. The fan can be set to spin based on its clock's time. A menu gathers user input to control each fan.
 
